@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter/page/limited_wrap_demo.dart';
+import 'package:my_flutter/demo/address_page.dart';
+import 'package:my_flutter/demo/limited_wrap_demo.dart';
+import 'package:my_flutter/demo/popup_arrow_demo.dart';
 import 'package:my_flutter/src/router.dart';
 
 void main() {
@@ -34,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    Navigator.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -42,8 +45,15 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           _buildItem(
             '一个获取行数的Wrap',
-            onTap: () =>
-                push(child: const LimitedWrapPage(), withScaffold: false),
+            onTap: () => push(child: const LimitedWrapPage(), withScaffold: false),
+          ),
+          _buildItem(
+            '地址选择',
+            onTap: () => push(child: const AddressDemo()),
+          ),
+          _buildItem(
+            'PopupArrowDemo',
+            onTap: () => push(child: const PopupArrowDemo(),withScaffold: false),
           ),
         ],
       ),
@@ -57,8 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void push(
-      {required Widget child, bool withScaffold = true, String title = ''}) {
+  void push({required Widget child, bool withScaffold = true, String title = ''}) {
     final page = withScaffold ? PageWrapper(page: child, title: title) : child;
     MyRouter.pushPage(page);
   }
