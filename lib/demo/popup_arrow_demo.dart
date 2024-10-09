@@ -7,12 +7,12 @@ class PopupArrowDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = const Size(80, 40);
+    // final size = const Size(80, 40);
     BorderRadius radius = BorderRadius.circular(12);
     // radius = BorderRadius.zero;
     return Scaffold(
       appBar: AppBar(
-        title: Text('PopupArrowDemo'),
+        title: const Text('PopupArrowDemo'),
       ),
       body: Container(
         margin: const EdgeInsets.all(20),

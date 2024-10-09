@@ -23,7 +23,7 @@ class ManualLayoutWidget extends MultiChildRenderObjectWidget {
   /// 可以通过该对象拿到组件布局之后的 offset size rect 等信息
   final ValueSetter<ManualRenderBox>? afterLayout;
 
-  ManualLayoutWidget({
+  const ManualLayoutWidget({
     Key? key,
     required this.layoutChild,
     this.afterLayout,

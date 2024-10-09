@@ -4,6 +4,9 @@ import 'package:my_flutter/demo/limited_wrap_demo.dart';
 import 'package:my_flutter/demo/popup_arrow_demo.dart';
 import 'package:my_flutter/src/router.dart';
 
+import 'demo/slider_demo.dart';
+import 'demo/tab_indicator_demo.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -45,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           _buildItem(
             '一个获取行数的Wrap',
-            onTap: () => push(child: const LimitedWrapPage(), withScaffold: false),
+            onTap: () =>
+                push(child: const LimitedWrapPage(), withScaffold: false),
           ),
           _buildItem(
             '地址选择',
@@ -53,7 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           _buildItem(
             'PopupArrowDemo',
-            onTap: () => push(child: const PopupArrowDemo(),withScaffold: false),
+            onTap: () =>
+                push(child: const PopupArrowDemo(), withScaffold: false),
+          ),
+          _buildItem(
+            '固定大小的指示器',
+            onTap: () =>
+                push(child: const TabIndicatorDemo(), withScaffold: false),
+          ),
+          _buildItem(
+            'Slider',
+            onTap: () => push(child: const SliderDemo(), withScaffold: false),
           ),
         ],
       ),
@@ -67,7 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void push({required Widget child, bool withScaffold = true, String title = ''}) {
+  void push(
+      {required Widget child, bool withScaffold = true, String title = ''}) {
     final page = withScaffold ? PageWrapper(page: child, title: title) : child;
     MyRouter.pushPage(page);
   }

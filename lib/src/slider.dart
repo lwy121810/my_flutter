@@ -49,7 +49,8 @@ class _DJSliderState extends State<DJSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return AssertsImageBuilder(widget.imageProvider, builder: (context, imageInfo) {
+    return AssertsImageBuilder(widget.imageProvider,
+        builder: (context, imageInfo) {
       return SliderTheme(
           // overlayShape, //滑块按下的浮层显示
           // tickMarkShape, //单滑块的刻度
@@ -59,10 +60,13 @@ class _DJSliderState extends State<DJSlider> {
           data: SliderThemeData(
             trackHeight: 10,
             thumbShape: imageInfo?.image == null
-                ? RoundSliderThumbShape(enabledThumbRadius: widget.thumbSize.width / 2)
-                : DJImageSliderThumbShape(image: imageInfo!.image, size: widget.thumbSize),
+                ? RoundSliderThumbShape(
+                    enabledThumbRadius: widget.thumbSize.width / 2)
+                : DJImageSliderThumbShape(
+                    image: imageInfo!.image, size: widget.thumbSize),
 
-            trackShape: DJRectangularSliderTrackShape(sideWidth: widget.sideWidth),
+            trackShape:
+                DJRectangularSliderTrackShape(sideWidth: widget.sideWidth),
 
             // trackShape: TDRoundedRectSliderTrackShape(),
             // tickMarkShape: RoundSliderTickMarkShape(),
@@ -111,13 +115,13 @@ class DJImageSliderThumbShape extends SliderComponentShape {
       required double textScaleFactor,
       required Size sizeWithOverflow}) {
     final canvas = context.canvas;
-    final offset = Offset(0, 0);
     final paint = Paint()..isAntiAlias = true;
     // canvas.drawImage(image, offset, paint);
 
     final dx = size.width / 2;
     final dy = size.height / 2;
-    final src = Rect.fromLTWH(0, 0, image!.width.toDouble(), image!.height.toDouble());
+    final src =
+        Rect.fromLTWH(0, 0, image!.width.toDouble(), image!.height.toDouble());
 
     final left = center.dx - dx;
     final top = center.dy - dy;
@@ -126,11 +130,11 @@ class DJImageSliderThumbShape extends SliderComponentShape {
     final dst = Rect.fromLTRB(left, top, right, bottom);
 
     canvas.drawImageRect(image, src, dst, paint);
-    // canvas.drawImageNine(image, center, dst, paint)
   }
 }
 
-typedef AssertsWidgetBuilder = Widget Function(BuildContext context, ImageInfo? imageInfo);
+typedef AssertsWidgetBuilder = Widget Function(
+    BuildContext context, ImageInfo? imageInfo);
 
 class AssertsImageBuilder extends StatefulWidget {
   final ImageProvider imageProvider;
@@ -138,7 +142,7 @@ class AssertsImageBuilder extends StatefulWidget {
 
   const AssertsImageBuilder(
     this.imageProvider, {
-    Key? key,
+    super.key,
     required this.builder,
   });
 
@@ -233,12 +237,16 @@ class DJRectangularSliderTrackShape extends RectangularSliderTrackShape {
 
     // Assign the track segment paints, which are left: active, right: inactive,
     // but reversed for right to left text.
-    final ColorTween activeTrackColorTween =
-        ColorTween(begin: sliderTheme.disabledActiveTrackColor, end: sliderTheme.activeTrackColor);
-    final ColorTween inactiveTrackColorTween =
-        ColorTween(begin: sliderTheme.disabledInactiveTrackColor, end: sliderTheme.inactiveTrackColor);
-    final Paint activePaint = Paint()..color = activeTrackColorTween.evaluate(enableAnimation)!;
-    final Paint inactivePaint = Paint()..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
+    final ColorTween activeTrackColorTween = ColorTween(
+        begin: sliderTheme.disabledActiveTrackColor,
+        end: sliderTheme.activeTrackColor);
+    final ColorTween inactiveTrackColorTween = ColorTween(
+        begin: sliderTheme.disabledInactiveTrackColor,
+        end: sliderTheme.inactiveTrackColor);
+    final Paint activePaint = Paint()
+      ..color = activeTrackColorTween.evaluate(enableAnimation)!;
+    final Paint inactivePaint = Paint()
+      ..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
     final Paint leftTrackPaint;
     final Paint rightTrackPaint;
     final Paint leftSidePaint;
@@ -265,11 +273,13 @@ class DJRectangularSliderTrackShape extends RectangularSliderTrackShape {
       isDiscrete: isDiscrete,
     );
 
-    final Rect leftTrackSegment = Rect.fromLTRB(trackRect.left, trackRect.top, thumbCenter.dx, trackRect.bottom);
+    final Rect leftTrackSegment = Rect.fromLTRB(
+        trackRect.left, trackRect.top, thumbCenter.dx, trackRect.bottom);
     if (!leftTrackSegment.isEmpty) {
       context.canvas.drawRect(leftTrackSegment, leftTrackPaint);
     }
-    final Rect rightTrackSegment = Rect.fromLTRB(thumbCenter.dx, trackRect.top, trackRect.right, trackRect.bottom);
+    final Rect rightTrackSegment = Rect.fromLTRB(
+        thumbCenter.dx, trackRect.top, trackRect.right, trackRect.bottom);
     if (!rightTrackSegment.isEmpty) {
       context.canvas.drawRect(rightTrackSegment, rightTrackPaint);
     }
@@ -280,13 +290,19 @@ class DJRectangularSliderTrackShape extends RectangularSliderTrackShape {
             : (secondaryOffset.dx < thumbCenter.dx));
 
     if (showSecondaryTrack) {
-      final ColorTween secondaryTrackColorTween =
-          ColorTween(begin: sliderTheme.disabledSecondaryActiveTrackColor, end: sliderTheme.secondaryActiveTrackColor);
-      final Paint secondaryTrackPaint = Paint()..color = secondaryTrackColorTween.evaluate(enableAnimation)!;
+      final ColorTween secondaryTrackColorTween = ColorTween(
+          begin: sliderTheme.disabledSecondaryActiveTrackColor,
+          end: sliderTheme.secondaryActiveTrackColor);
+      final Paint secondaryTrackPaint = Paint()
+        ..color = secondaryTrackColorTween.evaluate(enableAnimation)!;
       final Rect secondaryTrackSegment = Rect.fromLTRB(
-        (textDirection == TextDirection.ltr) ? thumbCenter.dx : secondaryOffset.dx,
+        (textDirection == TextDirection.ltr)
+            ? thumbCenter.dx
+            : secondaryOffset.dx,
         trackRect.top,
-        (textDirection == TextDirection.ltr) ? secondaryOffset.dx : thumbCenter.dx,
+        (textDirection == TextDirection.ltr)
+            ? secondaryOffset.dx
+            : thumbCenter.dx,
         trackRect.bottom,
       );
       if (!secondaryTrackSegment.isEmpty) {
@@ -294,7 +310,8 @@ class DJRectangularSliderTrackShape extends RectangularSliderTrackShape {
       }
     }
 
-    final double thumbHeight = sliderTheme.thumbShape!.getPreferredSize(isEnabled, isDiscrete).height;
+    final double thumbHeight =
+        sliderTheme.thumbShape!.getPreferredSize(isEnabled, isDiscrete).height;
     final double trackHeight = trackRect.height;
 
     if (sideWidth != null && sideWidth! > 0) {
@@ -303,7 +320,8 @@ class DJRectangularSliderTrackShape extends RectangularSliderTrackShape {
       rightSidePaint.strokeWidth = strokeWidth;
 
       double left = trackRect.left + strokeWidth / 2;
-      final maxY = math.max(thumbHeight, trackHeight); // startY + thumbHeight / 2 - trackHeight/2
+      final maxY = math.max(
+          thumbHeight, trackHeight); // startY + thumbHeight / 2 - trackHeight/2
       final startY = math.min(trackRect.bottom, thumbHeight);
 
       Offset p1 = Offset(left, startY);

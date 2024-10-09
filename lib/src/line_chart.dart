@@ -11,7 +11,8 @@ class DJChartPointData {
 
   String get yValueDesc => text ?? '$yValue';
 
-  TextStyle get style => textStyle ?? TextStyle(color: Colors.white, fontSize: 12);
+  TextStyle get style =>
+      textStyle ?? const TextStyle(color: Colors.white, fontSize: 12);
 
   DJChartPointData({
     required this.yValue,
@@ -85,8 +86,10 @@ class _DJLineChartPainter extends CustomPainter {
     this.xAxisColor = const Color(0xFFE3E4E5),
     this.yAxisColor = const Color(0xFFE3E4E5),
     this.axisLineWidth = 0.5,
-    this.yAxisStyle = const TextStyle(color: const Color(0xFF000000), fontSize: 11),
-    this.xAxisStyle = const TextStyle(color: const Color(0xFF000000), fontSize: 11),
+    this.yAxisStyle =
+        const TextStyle(color: const Color(0xFF000000), fontSize: 11),
+    this.xAxisStyle =
+        const TextStyle(color: const Color(0xFF000000), fontSize: 11),
     TextStyle? xDescStyle,
     TextStyle? yDescStyle,
     this.lineWidth = 4,
@@ -176,12 +179,13 @@ class _DJLineChartPainter extends CustomPainter {
     _renderDataDot(canvas, pointCoordinates, points);
   }
 
-  void _renderLine(Canvas canvas, Rect coordinateRect, List<Offset> pointCoordinates, List<DJChartPointData> dataList) {
+  void _renderLine(Canvas canvas, Rect coordinateRect,
+      List<Offset> pointCoordinates, List<DJChartPointData> dataList) {
     final linePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = lineWidth;
 
-    Offset _lastOffset = Offset(coordinateRect.left, coordinateRect.bottom);
+    Offset lastOffset = Offset(coordinateRect.left, coordinateRect.bottom);
     for (int i = 0; i < pointCoordinates.length; i++) {
       final offset = pointCoordinates[i];
       final point = points[i];
@@ -190,13 +194,14 @@ class _DJLineChartPainter extends CustomPainter {
       } else {
         linePaint.color = points[i - 1].backgroundColor;
       }
-      canvas.drawLine(_lastOffset, offset, linePaint);
-      _lastOffset = offset;
+      canvas.drawLine(lastOffset, offset, linePaint);
+      lastOffset = offset;
     }
   }
 
-  void _renderDataDot(Canvas canvas, List<Offset> pointCoordinates, List<DJChartPointData> dataList) {
-    final strokeWidth = 2.0;
+  void _renderDataDot(Canvas canvas, List<Offset> pointCoordinates,
+      List<DJChartPointData> dataList) {
+    const strokeWidth = 2.0;
     final Paint innerPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
@@ -219,11 +224,12 @@ class _DJLineChartPainter extends CustomPainter {
     final text = data.yValueDesc;
     final textPainter = _buildTextPainter(text, data.style);
     final textW = textPainter.width;
-    final _size = Size(max(textW + _pointDataRadius, minW), 30);
-    return [_size, textPainter];
+    final size = Size(max(textW + _pointDataRadius, minW), 30);
+    return [size, textPainter];
   }
 
-  void _renderPointData(Canvas canvas, List<Offset> pointCoordinates, List<DJChartPointData> dataList) {
+  void _renderPointData(Canvas canvas, List<Offset> pointCoordinates,
+      List<DJChartPointData> dataList) {
     const space = 10.0; // 箭头距离dot的间距
 
     for (int i = 0; i < pointCoordinates.length; i++) {
@@ -253,8 +259,11 @@ class _DJLineChartPainter extends CustomPainter {
   }
 
   // 将数据转为坐标
-  List<Offset> _convertDataToCoordinate(Rect coordinateRect, List<double> xOffsets,
-      {required double tickH, required num gap, required List<DJChartPointData> dataList}) {
+  List<Offset> _convertDataToCoordinate(
+      Rect coordinateRect, List<double> xOffsets,
+      {required double tickH,
+      required num gap,
+      required List<DJChartPointData> dataList}) {
     final maxY = coordinateRect.bottom;
     return dataList.mapIndexed((index, e) {
       final x = xOffsets[index];
@@ -289,12 +298,15 @@ class _DJLineChartPainter extends CustomPainter {
   }
 
   void _drawYDesc(Canvas canvas, Rect coordinateRect) {
-    _drawYText(canvas, yDesc, yDescStyle, coordinateRect, dyCb: (h) => max(coordinateRect.top - h, .0));
+    _drawYText(canvas, yDesc, yDescStyle, coordinateRect,
+        dyCb: (h) => max(coordinateRect.top - h, .0));
   }
 
   TextPainter _buildTextPainter(String desc, TextStyle style) {
     return TextPainter(
-        text: TextSpan(text: desc, style: style), textDirection: TextDirection.ltr, textAlign: TextAlign.center)
+        text: TextSpan(text: desc, style: style),
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center)
       ..layout();
   }
 
@@ -313,8 +325,10 @@ class _DJLineChartPainter extends CustomPainter {
     textPainter.paint(canvas, Offset(dx, dy));
   }
 
-  void _drawYAxisText(Canvas canvas, double startY, String desc, Rect coordinateRect) {
-    _drawYText(canvas, desc, yAxisStyle, coordinateRect, dyCb: (h) => startY - h / 2);
+  void _drawYAxisText(
+      Canvas canvas, double startY, String desc, Rect coordinateRect) {
+    _drawYText(canvas, desc, yAxisStyle, coordinateRect,
+        dyCb: (h) => startY - h / 2);
   }
 
   List<double> _drawYAxis(Canvas canvas, Rect coordinateRect) {
@@ -330,7 +344,7 @@ class _DJLineChartPainter extends CustomPainter {
     p2 = Offset(startX, endY);
     canvas.drawLine(p1, p2, yAxisPaint);
 
-    void _renderText(TextPainter textPainter, double centerX) {
+    void renderText(TextPainter textPainter, double centerX) {
       final h = textPainter.size.height;
       final double space = max((_xTextMaxHeight - h) / 2, 0);
       final textW = textPainter.width;
@@ -343,15 +357,19 @@ class _DJLineChartPainter extends CustomPainter {
     // 画字
     void _drawText(String desc, TextStyle style, double centerX) {
       final textPainter = _buildTextPainter(desc, style);
-      _renderText(textPainter, centerX);
+      renderText(textPainter, centerX);
     }
 
-    final List<TextPainter> textPainterList =
-        xAxisMarks.map((e) => _buildTextPainter(e.desc, e.style ?? xDescStyle)).toList();
+    final List<TextPainter> textPainterList = xAxisMarks
+        .map((e) => _buildTextPainter(e.desc, e.style ?? xDescStyle))
+        .toList();
 
     // tick
-    final tickNum = tickNumEqualMarks ? xAxisMarks.length : xAxisMarks.length + 1;
-    final lastDataWidth = points.isEmpty ? 0.0 : (_calcPointDataSize(points.last).first as Size).width;
+    final tickNum =
+        tickNumEqualMarks ? xAxisMarks.length : xAxisMarks.length + 1;
+    final lastDataWidth = points.isEmpty
+        ? 0.0
+        : (_calcPointDataSize(points.last).first as Size).width;
     final lastMarkWidth = textPainterList.last.width;
 
     final minRight = max((lastDataWidth / 2 + 8), 30.0);
@@ -382,7 +400,7 @@ class _DJLineChartPainter extends CustomPainter {
         x = tickNumEqualMarks ? centerX : centerX + tickWidth / 2;
       }
       final textPainter = textPainterList[i];
-      _renderText(textPainter, x);
+      renderText(textPainter, x);
       xTextOffsets.add(x);
     }
     return xTextOffsets;
@@ -407,7 +425,6 @@ class _DJLineChartPainter extends CustomPainter {
         yGap != oldDelegate.yGap;
   }
 }
-
 
 extension _IterableMapIndexed<E> on Iterable<E> {
   /// Returns a new lazy [Iterable] containing the results of applying the

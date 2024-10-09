@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DJLinearProgressIndicator extends StatelessWidget {
+/// 渐变背景色的进度条
+class LinearGradientProgressIndicator extends StatelessWidget {
   final double width;
   final double height;
   final double progress;
@@ -8,7 +9,7 @@ class DJLinearProgressIndicator extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color backgroundColor;
 
-  const DJLinearProgressIndicator({
+  const LinearGradientProgressIndicator({
     super.key,
     required this.width,
     required this.height,
@@ -18,7 +19,7 @@ class DJLinearProgressIndicator extends StatelessWidget {
     this.backgroundColor = const Color(0xFFECECEC),
   });
 
-  DJLinearProgressIndicator.colors({
+  LinearGradientProgressIndicator.colors({
     super.key,
     required this.width,
     required this.height,
@@ -63,36 +64,38 @@ class _GradientProgressBarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final _bgColor = backgroundColor;
-    final _borderRadius = borderRadius ?? BorderRadius.circular(size.height / 2);
+    final bgColor = backgroundColor;
+    final borderRadius =
+        this.borderRadius ?? BorderRadius.circular(size.height / 2);
     final contentW = size.width;
     // 画背景
-    if (_bgColor != Colors.transparent) {
+    if (bgColor != Colors.transparent) {
       final backgroundPaint = Paint()
-        ..color = _bgColor
+        ..color = bgColor
         ..style = PaintingStyle.fill;
       final backgroundRect = RRect.fromRectAndCorners(
         Rect.fromLTWH(0, 0, contentW, size.height),
-        topLeft: _borderRadius.topLeft,
-        topRight: _borderRadius.topRight,
-        bottomLeft: _borderRadius.bottomLeft,
-        bottomRight: _borderRadius.bottomRight,
+        topLeft: borderRadius.topLeft,
+        topRight: borderRadius.topRight,
+        bottomLeft: borderRadius.bottomLeft,
+        bottomRight: borderRadius.bottomRight,
       );
       canvas.drawRRect(backgroundRect, backgroundPaint);
     }
 
     // 画进度条
-    final _value = progress.clamp(.0, 1.0);
-    if (_value > 0) {
+    final value = progress.clamp(.0, 1.0);
+    if (value > 0) {
       final paint = Paint()..style = PaintingStyle.fill;
-      final progressW = contentW * _value;
-      paint.shader = gradient.createShader(Rect.fromLTWH(0, 0, progressW, size.height));
+      final progressW = contentW * value;
+      paint.shader =
+          gradient.createShader(Rect.fromLTWH(0, 0, progressW, size.height));
       final progressRect = RRect.fromRectAndCorners(
         Rect.fromLTWH(0, 0, progressW, size.height),
-        topLeft: _borderRadius.topLeft,
-        topRight: _borderRadius.topRight,
-        bottomLeft: _borderRadius.bottomLeft,
-        bottomRight: _borderRadius.bottomRight,
+        topLeft: borderRadius.topLeft,
+        topRight: borderRadius.topRight,
+        bottomLeft: borderRadius.bottomLeft,
+        bottomRight: borderRadius.bottomRight,
       );
       canvas.drawRRect(progressRect, paint);
     }
